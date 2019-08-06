@@ -3,6 +3,7 @@ package webserver.http.request;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 import webserver.http.HttpMethod;
+import webserver.http.HttpVersion;
 
 import java.util.Objects;
 
@@ -11,12 +12,12 @@ import java.util.Objects;
  *
  * 5.1 Request-Line
  *
- *    The Request-Line begins with a method token, followed by the
- *    Request-URI and the protocol version, and ending with CRLF. The
- *    elements are separated by SP characters. No CR or LF is allowed
- *    except in the final CRLF sequence.
+ * The Request-Line begins with a method token, followed by the
+ * Request-URI and the protocol version, and ending with CRLF. The
+ * elements are separated by SP characters. No CR or LF is allowed
+ * except in the final CRLF sequence.
  *
- *         Request-Line   = Method SP Request-URI SP HTTP-Version CRLF
+ *      Request-Line   = Method SP Request-URI SP HTTP-Version CRLF
  */
 @Getter
 public class RequestLine {
@@ -25,7 +26,7 @@ public class RequestLine {
 
     private HttpMethod method;
     private RequestURI requestURI;
-    private String httpVersion;
+    private HttpVersion httpVersion;
 
     public static RequestLine parse(final String requestLine) {
         if (StringUtils.isBlank(requestLine)) {
@@ -45,7 +46,7 @@ public class RequestLine {
     private RequestLine(final String method, final String requestURI, final String httpVersion) {
         setMethod(HttpMethod.valueOf(method));
         setRequestURI(requestURI);
-        setHttpVersion(httpVersion);
+        setHttpVersion(HttpVersion.valueOfVersion(httpVersion));
     }
 
     private void setMethod(HttpMethod method) {
@@ -62,15 +63,17 @@ public class RequestLine {
         this.requestURI = new RequestURI(requestURI);
     }
 
-    private void setHttpVersion(String httpVersion) {
-        if (StringUtils.isBlank(httpVersion)) {
-            throw new IllegalArgumentException("HTTP-Version은 필수입니다.");
-        }
+    private void setHttpVersion(HttpVersion httpVersion) {
+        Objects.requireNonNull(httpVersion, "HTTP-Version은 필수입니다.");
 
         this.httpVersion = httpVersion;
     }
 
-    public String getPath() {
-        return requestURI.getPath();
+    public String path() {
+        return requestURI.path();
+    }
+
+    public Query query() {
+        return requestURI.getQuery();
     }
 }
