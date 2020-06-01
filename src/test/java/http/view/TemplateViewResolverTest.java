@@ -29,7 +29,7 @@ public class TemplateViewResolverTest {
         request.addAttribute("users", users);
         HttpResponse response = new HttpResponse(request, createOutputStream("list.html"));
         TemplateViewResolver viewResolver = new TemplateViewResolver();
-        View view = viewResolver.resolveViewName("/user/list.html");
+        View view = viewResolver.resolveViewName("/user/list");
         view.render(request, response);
     }
 
