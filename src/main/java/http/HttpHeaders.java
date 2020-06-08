@@ -13,7 +13,7 @@ class HttpHeaders {
 
     private static final Logger log = LoggerFactory.getLogger(HttpHeaders.class);
 
-    private Map<String, String> headers = new HashMap<>();
+    private final Map<String, String> headers = new HashMap<>();
 
     void add(String header) {
         log.debug("header : {}", header);

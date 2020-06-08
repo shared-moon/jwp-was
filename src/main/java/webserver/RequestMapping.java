@@ -10,7 +10,7 @@ import java.util.Map;
 public class RequestMapping {
     private static final Logger logger = LoggerFactory.getLogger(RequestMapping.class);
 
-    private static Map<String, Controller> controllers = new HashMap<String, Controller>();
+    private static Map<String, Controller> controllers = new HashMap<>();
     private static Controller forwardController = new ForwardController();
     private static Controller staticController = new StaticController();
 
