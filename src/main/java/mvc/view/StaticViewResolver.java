@@ -1,4 +1,4 @@
-package http.view;
+package mvc.view;
 
 public class StaticViewResolver implements ViewResolver {
     @Override

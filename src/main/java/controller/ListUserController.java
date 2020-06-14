@@ -5,6 +5,7 @@ import http.HttpRequest;
 import http.HttpResponse;
 import http.HttpSession;
 import model.User;
+import mvc.controller.AbstractController;
 
 import java.util.Collection;
 

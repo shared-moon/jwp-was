@@ -1,4 +1,4 @@
-package http.view;
+package mvc.view;
 
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.io.ClassPathTemplateLoader;

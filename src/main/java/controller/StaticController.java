@@ -2,9 +2,10 @@ package controller;
 
 import http.HttpRequest;
 import http.HttpResponse;
-import http.view.StaticViewResolver;
-import http.view.View;
-import http.view.ViewResolver;
+import mvc.controller.AbstractController;
+import mvc.view.StaticViewResolver;
+import mvc.view.View;
+import mvc.view.ViewResolver;
 
 public class StaticController extends AbstractController {
     @Override

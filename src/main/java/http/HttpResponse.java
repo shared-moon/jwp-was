@@ -1,8 +1,8 @@
 package http;
 
-import http.view.TemplateViewResolver;
-import http.view.View;
-import http.view.ViewResolver;
+import mvc.view.TemplateViewResolver;
+import mvc.view.View;
+import mvc.view.ViewResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

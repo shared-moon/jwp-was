@@ -1,4 +1,4 @@
-package controller;
+package mvc.controller;
 
 import http.HttpRequest;
 import http.HttpResponse;

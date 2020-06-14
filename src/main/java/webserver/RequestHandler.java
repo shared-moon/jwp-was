@@ -1,13 +1,13 @@
 package webserver;
 
-import controller.Controller;
 import http.HttpRequest;
 import http.HttpResponse;
 import http.HttpSessions;
+import mvc.RequestMapping;
+import mvc.controller.Controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
@@ -16,10 +16,12 @@ import java.util.UUID;
 public class RequestHandler implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(RequestHandler.class);
 
-    private Socket connection;
+    private final Socket connection;
+    private final RequestMapping requestMapping;
 
-    public RequestHandler(Socket connectionSocket) {
+    public RequestHandler(Socket connectionSocket, RequestMapping requestMapping) {
         this.connection = connectionSocket;
+        this.requestMapping = requestMapping;
     }
 
     public void run() {
@@ -34,19 +36,11 @@ public class RequestHandler implements Runnable {
                 response.addHeader("Set-Cookie", HttpSessions.SESSION_ID_NAME + "=" + UUID.randomUUID());
             }
 
-            String path = getDefaultPath(request.getPath());
-            Controller controller = RequestMapping.getController(path);
+            Controller controller = requestMapping.getController(request);
             logger.debug("Controller : {}", controller);
             controller.service(request, response);
         } catch (Exception e) {
             logger.error(e.getMessage());
         }
-    }
-
-    private String getDefaultPath(String path) {
-        if (path.equals("/")) {
-            return "/index.html";
-        }
-        return path;
     }
 }

@@ -1,4 +1,4 @@
-package http.view;
+package mvc.view;
 
 import com.github.jknack.handlebars.Template;
 import http.HttpRequest;

@@ -4,6 +4,7 @@ import db.DataBase;
 import http.HttpRequest;
 import http.HttpResponse;
 import model.User;
+import mvc.controller.AbstractController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

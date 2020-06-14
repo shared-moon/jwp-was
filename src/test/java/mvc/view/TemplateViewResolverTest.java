@@ -1,4 +1,4 @@
-package http.view;
+package mvc.view;
 
 import http.HttpRequest;
 import http.HttpResponse;

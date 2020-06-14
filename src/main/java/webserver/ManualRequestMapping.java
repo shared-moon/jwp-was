@@ -1,14 +1,17 @@
 package webserver;
 
 import controller.*;
+import http.HttpRequest;
+import mvc.RequestMapping;
+import mvc.controller.Controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class RequestMapping {
-    private static final Logger logger = LoggerFactory.getLogger(RequestMapping.class);
+public class ManualRequestMapping implements RequestMapping {
+    private static final Logger logger = LoggerFactory.getLogger(ManualRequestMapping.class);
 
     private static Map<String, Controller> controllers = new HashMap<>();
     private static Controller forwardController = new ForwardController();
@@ -20,7 +23,8 @@ public class RequestMapping {
         controllers.put("/user/list", new ListUserController());
     }
 
-    public static Controller getController(String requestUrl) {
+    public Controller getController(HttpRequest request) {
+        String requestUrl = getDefaultPath(request.getPath());
         logger.debug("Request Mapping Url : {}", requestUrl);
 
         Controller controller = controllers.get(requestUrl);
@@ -33,5 +37,12 @@ public class RequestMapping {
         }
 
         return staticController;
+    }
+
+    private String getDefaultPath(String path) {
+        if (path.equals("/")) {
+            return "/index.html";
+        }
+        return path;
     }
 }

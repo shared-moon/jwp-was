@@ -1,4 +1,4 @@
-package http.view;
+package mvc.view;
 
 import http.HttpRequest;
 import http.HttpResponse;
@@ -6,8 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import utils.FileIoUtils;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.Optional;
 
 public class StaticResourceView implements View {
