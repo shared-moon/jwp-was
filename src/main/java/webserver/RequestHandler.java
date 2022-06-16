@@ -29,13 +29,7 @@ public class RequestHandler implements Runnable {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
              DataOutputStream dos = new DataOutputStream(connection.getOutputStream())) {
 
-            while(true) {
-                String line = br.readLine();
-                if (ObjectUtils.isEmpty(line)) {
-                    break;
-                }
 
-            }
 
             byte[] body = "Hello World".getBytes();
             response200Header(dos, body.length);

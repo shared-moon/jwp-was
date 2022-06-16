@@ -15,17 +15,13 @@ class HttpRequestReaderTest {
 
     @DisplayName("read - HttpRequest를 읽어들여 HttpRequest 반환")
     @Test
-    void read() throws IOException {
+    void read() {
         String request = "GET /index.html HTTP/1.1\n" +
                 "Host: localhost:8080\n" +
                 "Connection: keep-alive\n" +
                 "Accept: */*";
 
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(request.getBytes(StandardCharsets.UTF_8))));
-
-        HttpRequest httpRequest = HttpRequestReader.read(bufferedReader);
-
-        bufferedReader.close();
+        HttpRequest httpRequest = HttpRequestReader.read(new ByteArrayInputStream(request.getBytes(StandardCharsets.UTF_8)));
 
         assertThat(httpRequest).isEqualTo(new HttpRequest(HttpMethod.GET, "/index.html", "HTTP", "1.1", Map.of()));
     }
