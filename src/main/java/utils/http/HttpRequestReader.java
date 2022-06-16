@@ -14,7 +14,13 @@ public class HttpRequestReader {
 
     private static final Logger logger = LoggerFactory.getLogger(RequestHandler.class);
 
-    public static HttpRequest read(InputStream inputStream) {
+    private final InputStream inputStream;
+
+    public HttpRequestReader(InputStream inputStream) {
+        this.inputStream = inputStream;
+    }
+
+    public HttpRequest read() {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
             String firstLine = br.readLine();
             HttpRequest httpRequest = HttpRequestParser.parse(firstLine);
@@ -29,7 +35,7 @@ public class HttpRequestReader {
         }
     }
 
-    private static String readFullRequest(BufferedReader br, String firstLine) throws IOException {
+    private String readFullRequest(BufferedReader br, String firstLine) throws IOException {
         StringBuilder sb = new StringBuilder(firstLine).append(NEXT_LINE);
 
         while(true) {
