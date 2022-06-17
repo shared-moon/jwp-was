@@ -1,7 +1,9 @@
-package http;
+package http.io;
 
+import http.enums.HttpStatus;
 import http.io.HttpResponseWriter;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,15 +12,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class HttpResponseWriterTest {
 
-    @DisplayName("ok - 200 응답 만들어 반환")
+    @DisplayName("write - 200 응답 만들어 반환")
     @Test
-    void ok() {
+    void write() throws IOException {
         // given
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         HttpResponseWriter httpResponseWriter = new HttpResponseWriter(bos);
 
         // when
-        httpResponseWriter.ok();
+        httpResponseWriter.write(HttpStatus.OK);
 
         // then
         String response = bos.toString(StandardCharsets.UTF_8);

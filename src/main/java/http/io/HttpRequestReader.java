@@ -8,12 +8,10 @@ import java.io.InputStreamReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.ObjectUtils;
-import webserver.RequestHandler;
 
 public class HttpRequestReader {
+    private static final Logger logger = LoggerFactory.getLogger(HttpRequestReader.class);
     public static final String NEXT_LINE = "\r\n";
-
-    private static final Logger logger = LoggerFactory.getLogger(RequestHandler.class);
 
     private final InputStream inputStream;
 
@@ -21,7 +19,7 @@ public class HttpRequestReader {
         this.inputStream = inputStream;
     }
 
-    public HttpRequest read() {
+    public HttpRequest read() throws IOException {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
             String firstLine = br.readLine();
             HttpRequest httpRequest = HttpRequestParser.parse(firstLine);
@@ -30,9 +28,6 @@ public class HttpRequestReader {
             logger.info("read HTTP request" + NEXT_LINE + fullRequest);
 
             return httpRequest;
-        } catch (IOException e) {
-            logger.error(e.getMessage());
-            throw new IllegalArgumentException(e.getMessage());
         }
     }
 

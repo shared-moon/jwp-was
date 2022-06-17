@@ -1,4 +1,4 @@
-package http;
+package http.util;
 
 import http.util.HttpQueryStringParser;
 import java.util.Map;

@@ -1,17 +1,15 @@
 package webserver;
 
-import java.io.BufferedInputStream;
+import http.io.HttpRequest;
+import http.io.HttpRequestReader;
+import http.io.HttpResponseWriter;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.Socket;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.ObjectUtils;
 
 public class RequestHandler implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(RequestHandler.class);
@@ -26,16 +24,16 @@ public class RequestHandler implements Runnable {
         logger.debug("New Client Connect! Connected IP : {}, Port : {}", connection.getInetAddress(),
                 connection.getPort());
 
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-             DataOutputStream dos = new DataOutputStream(connection.getOutputStream())) {
+        try {
+            HttpRequestReader requestReader = new HttpRequestReader(connection.getInputStream());
+            HttpRequest httpRequest = requestReader.read();
 
+            HttpResponseWriter responseWriter = new HttpResponseWriter(connection.getOutputStream());
 
-
-            byte[] body = "Hello World".getBytes();
-            response200Header(dos, body.length);
-            responseBody(dos, body);
         } catch (IOException e) {
             logger.error(e.getMessage());
+        } finally {
+            try { connection.close(); } catch (IOException e) { e.printStackTrace(); }
         }
     }
 
