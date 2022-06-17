@@ -1,5 +1,6 @@
-package utils.http;
+package http.io;
 
+import http.enums.HttpMethod;
 import java.util.Map;
 import java.util.Objects;
 

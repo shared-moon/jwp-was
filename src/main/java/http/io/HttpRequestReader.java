@@ -1,5 +1,6 @@
-package utils.http;
+package http.io;
 
+import http.util.HttpRequestParser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;

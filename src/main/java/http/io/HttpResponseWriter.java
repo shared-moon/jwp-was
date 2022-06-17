@@ -1,6 +1,5 @@
-package utils.http;
+package http.io;
 
-import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 
 public class HttpResponseWriter {

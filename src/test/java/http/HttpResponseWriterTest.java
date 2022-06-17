@@ -1,7 +1,7 @@
-package utils.http;
+package http;
 
+import http.io.HttpResponseWriter;
 import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
 import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

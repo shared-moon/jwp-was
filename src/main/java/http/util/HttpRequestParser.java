@@ -1,5 +1,7 @@
-package utils.http;
+package http.util;
 
+import http.enums.HttpMethod;
+import http.io.HttpRequest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

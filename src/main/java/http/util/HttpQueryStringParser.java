@@ -1,8 +1,7 @@
-package utils.http;
+package http.util;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import org.apache.logging.log4j.util.Strings;
 
 public class HttpQueryStringParser {

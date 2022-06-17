@@ -1,5 +1,8 @@
-package utils.http;
+package http;
 
+import http.enums.HttpMethod;
+import http.io.HttpRequest;
+import http.io.HttpRequestReader;
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;

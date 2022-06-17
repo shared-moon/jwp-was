@@ -1,4 +1,4 @@
-package utils.http;
+package http.enums;
 
 public enum HttpMethod {
     GET,

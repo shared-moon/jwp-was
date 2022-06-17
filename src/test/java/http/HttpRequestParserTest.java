@@ -1,5 +1,8 @@
-package utils.http;
+package http;
 
+import http.enums.HttpMethod;
+import http.io.HttpRequest;
+import http.util.HttpRequestParser;
 import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
