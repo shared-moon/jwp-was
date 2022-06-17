@@ -1,8 +1,8 @@
 package http.io;
 
-import http.enums.HttpStatus;
 import java.io.IOException;
 import java.io.OutputStream;
+import org.springframework.http.HttpStatus;
 
 public class HttpResponseWriter {
     private final OutputStream outputStream;

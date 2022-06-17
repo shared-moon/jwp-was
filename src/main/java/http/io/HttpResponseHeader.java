@@ -1,6 +1,6 @@
 package http.io;
 
-import http.enums.HttpStatus;
+import org.springframework.http.HttpStatus;
 
 public class HttpResponseHeader {
     private final String protocol = "HTTP";
@@ -10,6 +10,10 @@ public class HttpResponseHeader {
 
     public HttpResponseHeader(HttpStatus status) {
         this.status = status;
+    }
+
+    public static HttpResponseHeader of(HttpStatus status) {
+        return new HttpResponseHeader(status);
     }
 
     public String getProtocol() {

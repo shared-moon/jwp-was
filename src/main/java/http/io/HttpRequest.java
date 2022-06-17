@@ -3,8 +3,14 @@ package http.io;
 import http.enums.HttpMethod;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 public class HttpRequest {
+    private static final String DEFAULT_PROTOCOL = "HTTP";
+    private static final String DEFAULT_VERSION = "1.1";
+
+    private static final Set<String> RESOURCE_EXT = Set.of("html");
+
     private HttpMethod method;
     private String path;
     private String protocol;
@@ -22,6 +28,21 @@ public class HttpRequest {
         this.protocol = protocol;
         this.version = version;
         this.params = params;
+    }
+
+    public static HttpRequest GET(String path) {
+        return new HttpRequest(HttpMethod.GET, path, DEFAULT_PROTOCOL, DEFAULT_VERSION, Map.of());
+    }
+
+    public boolean isResourcePath() {
+        int extIdx = path.lastIndexOf(".");
+        String ext = path.substring(extIdx + 1);
+
+        return RESOURCE_EXT.contains(ext);
+    }
+
+    public String getPath() {
+        return path;
     }
 
     @Override

@@ -28,6 +28,8 @@ public class RequestHandler implements Runnable {
             HttpRequestReader requestReader = new HttpRequestReader(connection.getInputStream());
             HttpRequest httpRequest = requestReader.read();
 
+
+
             HttpResponseWriter responseWriter = new HttpResponseWriter(connection.getOutputStream());
 
         } catch (IOException e) {

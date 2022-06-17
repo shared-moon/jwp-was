@@ -3,9 +3,10 @@ package http.io;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import org.springframework.http.HttpStatus;
 
 public class HttpResponse {
-    private static final String FIRST_LINE_FORMAT = "%s/%s %s";
+    private static final String FIRST_LINE_FORMAT = "%s/%s %s %s";
     private static final String CONTENT_TYPE_LINE_FORMAT = "Content-Type: %s";
     private static final String CONTENT_LENGTH_LINE_FORMAT = "Content-Length: %s";
     private static final String NEXT_LINE = "\r\n";
@@ -17,6 +18,18 @@ public class HttpResponse {
                         byte[] body) {
         this.header = header;
         this.body = body;
+    }
+
+    public HttpResponse(HttpResponseHeader header) {
+        this(header, null);
+    }
+
+    public HttpStatus getStatus() {
+        return header.getStatus();
+    }
+
+    public byte[] getBody() {
+        return body;
     }
 
     public byte[] getBytes() {
@@ -41,7 +54,7 @@ public class HttpResponse {
 
 
     private void writeResponseHead(DataOutputStream dos) throws IOException {
-        String responseHead = String.format(FIRST_LINE_FORMAT, header.getProtocol(), header.getVersion(), header.getStatus().description());
+        String responseHead = String.format(FIRST_LINE_FORMAT, header.getProtocol(), header.getVersion(), header.getStatus().value(), header.getStatus().getReasonPhrase());
         dos.writeBytes(responseHead);
         dos.writeBytes(NEXT_LINE);
     }
