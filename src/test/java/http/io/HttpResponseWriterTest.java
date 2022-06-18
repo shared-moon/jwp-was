@@ -18,8 +18,10 @@ class HttpResponseWriterTest {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         HttpResponseWriter httpResponseWriter = new HttpResponseWriter(bos);
 
+        HttpResponse httpResponse = new HttpResponse(HttpResponseHeader.of(HttpStatus.OK));
+
         // when
-        httpResponseWriter.write(HttpStatus.OK);
+        httpResponseWriter.write(httpResponse);
 
         // then
         String response = bos.toString(StandardCharsets.UTF_8);

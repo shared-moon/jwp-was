@@ -20,15 +20,14 @@ public class HttpRequestReader {
     }
 
     public HttpRequest read() throws IOException {
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
-            String firstLine = br.readLine();
-            HttpRequest httpRequest = HttpRequestParser.parse(firstLine);
+        BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+        String firstLine = br.readLine();
+        HttpRequest httpRequest = HttpRequestParser.parse(firstLine);
 
-            String fullRequest = readFullRequest(br, firstLine);
-            logger.info("read HTTP request" + NEXT_LINE + fullRequest);
+        String fullRequest = readFullRequest(br, firstLine);
+        logger.info("read HTTP request" + NEXT_LINE + fullRequest);
 
-            return httpRequest;
-        }
+        return httpRequest;
     }
 
     private String readFullRequest(BufferedReader br, String firstLine) throws IOException {

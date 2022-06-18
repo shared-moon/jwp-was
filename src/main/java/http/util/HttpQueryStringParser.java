@@ -23,7 +23,7 @@ public class HttpQueryStringParser {
         for (String queryStringField : queryStringFields) {
             String[] keyValue = queryStringField.split(DELIMITER_KEY_VALUE);
             String key = keyValue[IDX_KEY];
-            String value = keyValue[IDX_VALUE];
+            String value = (keyValue.length > 1) ? keyValue[IDX_VALUE] : null;
 
             result.put(key, value);
         }

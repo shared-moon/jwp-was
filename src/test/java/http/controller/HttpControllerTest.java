@@ -27,4 +27,18 @@ class HttpControllerTest {
         assertThat(httpResponse.getStatus()).isEqualTo(HttpStatus.OK);
         assertThat(httpResponse.getBody()).isEqualTo(expected);
     }
+
+
+    @DisplayName("apply - path가 자원에 관련된 확장자로 끝나지만 templates 경로에 파일이 존재하지 않는 경우 404 응답이 반환된다")
+    @Test
+    void applyNotFound() {
+        // given
+        HttpRequest httpRequest = HttpRequest.GET("/noResource.html");
+
+        // when
+        HttpResponse httpResponse = HttpController.apply(httpRequest);
+
+        // then
+        assertThat(httpResponse.getStatus()).isEqualTo(HttpStatus.NOT_FOUND);
+    }
 }
