@@ -1,27 +1,58 @@
 package http.io;
 
+import com.google.common.base.Charsets;
+import http.util.JsonUtils;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import org.springframework.http.HttpStatus;
-
 public class HttpResponse {
+    private static final Charset DEFAULT_CHARSET = Charsets.UTF_8;
     private static final String FIRST_LINE_FORMAT = "%s/%s %s %s";
     private static final String CONTENT_TYPE_LINE_FORMAT = "Content-Type: %s";
     private static final String CONTENT_LENGTH_LINE_FORMAT = "Content-Length: %s";
     private static final String NEXT_LINE = "\r\n";
-
     private final HttpResponseHeader header;
     private final byte[] body;
-
-    public HttpResponse(HttpResponseHeader header,
-                        byte[] body) {
+    public HttpResponse(HttpResponseHeader header, byte[] body) {
         this.header = header;
         this.body = body;
     }
-
     public HttpResponse(HttpResponseHeader header) {
         this(header, null);
+    }
+
+    public static HttpResponse ok(byte[] body) {
+        return createResponse(HttpStatus.OK, body);
+    }
+    public static HttpResponse ok(String body) {
+        return ok(body.getBytes(DEFAULT_CHARSET));
+    }
+
+    public static HttpResponse ok(Object obj) {
+        return ok(JsonUtils.write(obj));
+    }
+
+    public static HttpResponse notFound() {
+        return notFound("");
+    }
+
+    public static HttpResponse notFound(String message) {
+        return createResponse(HttpStatus.NOT_FOUND, message.getBytes(DEFAULT_CHARSET));
+    }
+
+    public static HttpResponse error() {
+        return error("");
+    }
+
+    public static HttpResponse error(String message) {
+        return createResponse(HttpStatus.INTERNAL_SERVER_ERROR, message.getBytes(DEFAULT_CHARSET));
+    }
+
+    private static HttpResponse createResponse(HttpStatus httpStatus, byte[] body) {
+        HttpResponseHeader responseHeader = HttpResponseHeader.of(httpStatus);
+        return new HttpResponse(responseHeader, body);
     }
 
     public HttpStatus getStatus() {

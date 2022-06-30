@@ -11,12 +11,12 @@ public class HttpRequest {
 
     private static final Set<String> RESOURCE_EXT = Set.of("html");
 
-    private HttpMethod method;
-    private String path;
-    private String protocol;
-    private String version;
+    private final HttpMethod method;
+    private final String path;
+    private final String protocol;
+    private final String version;
 
-    private Map<String,String> params;
+    private final Map<String,String> params;
 
     public HttpRequest(HttpMethod method,
                        String path,
@@ -43,6 +43,10 @@ public class HttpRequest {
 
     public String getPath() {
         return path;
+    }
+
+    public Map<String, String> getParams() {
+        return params;
     }
 
     @Override
