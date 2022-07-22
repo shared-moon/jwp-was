@@ -11,7 +11,7 @@ public class UserCreateController implements Controller{
 
     @Override
     public HttpResponse execute(HttpRequest request) {
-        User user = JsonUtils.read(request.getParams(), User.class);
+        User user = JsonUtils.read(request.getBody(), User.class);
         userService.createUser(user);
 
         return HttpResponse.ok(user);

@@ -8,6 +8,9 @@ import java.io.InputStreamReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.ObjectUtils;
+import utils.IOUtils;
+
+import static org.springframework.http.HttpHeaders.CONTENT_LENGTH;
 
 public class HttpRequestReader {
     private static final Logger logger = LoggerFactory.getLogger(HttpRequestReader.class);
@@ -21,25 +24,36 @@ public class HttpRequestReader {
 
     public HttpRequest read() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
-        String firstLine = br.readLine();
-        HttpRequest httpRequest = HttpRequestParser.parse(firstLine);
+        String requestLine = br.readLine();
+        HttpRequestHeader requestHeader = readHeader(br);
+        String bodyLine = readBody(br, requestHeader);
+        printFullRequest(requestLine, requestHeader, bodyLine);
 
-        String fullRequest = readFullRequest(br, firstLine);
-        logger.info("read HTTP request" + NEXT_LINE + fullRequest);
-
-        return httpRequest;
+        return HttpRequestParser.parse(requestLine, bodyLine);
     }
 
-    private String readFullRequest(BufferedReader br, String firstLine) throws IOException {
-        StringBuilder sb = new StringBuilder(firstLine).append(NEXT_LINE);
-
+    private HttpRequestHeader readHeader(BufferedReader br) throws IOException {
+        HttpRequestHeader requestHeader = new HttpRequestHeader();
         while(true) {
             String line = br.readLine();
             if (ObjectUtils.isEmpty(line)) {
                 break;
             }
-            sb.append(line).append(NEXT_LINE);
+            requestHeader.add(line);
         }
-        return sb.toString();
+        return requestHeader;
+    }
+
+    private String readBody(BufferedReader br, HttpRequestHeader requestHeader) throws IOException {
+        if (!requestHeader.containsKey(CONTENT_LENGTH)) {
+            return null;
+        }
+        int contentLength = Integer.parseInt(requestHeader.get(CONTENT_LENGTH));
+        return IOUtils.readData(br, contentLength);
+    }
+
+    private void printFullRequest(String requestLine, HttpRequestHeader requestHeader, String bodyLine) {
+        String fullRequest = requestLine + NEXT_LINE + requestHeader + NEXT_LINE + NEXT_LINE + bodyLine;
+        logger.info("read HTTP request" + NEXT_LINE + fullRequest);
     }
 }

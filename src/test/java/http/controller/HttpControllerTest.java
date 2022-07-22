@@ -3,6 +3,7 @@ package http.controller;
 import http.controller.http.HttpController;
 import http.io.HttpRequest;
 import http.io.HttpResponse;
+import http.support.HttpRequestFixture;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import org.junit.jupiter.api.DisplayName;
@@ -18,7 +19,7 @@ class HttpControllerTest {
     @Test
     void apply() throws IOException, URISyntaxException {
         // given
-        HttpRequest httpRequest = HttpRequest.GET("/index.html");
+        HttpRequest httpRequest = HttpRequestFixture.GET("/index.html");
 
         // when
         HttpResponse httpResponse = HttpController.apply(httpRequest);
@@ -34,7 +35,7 @@ class HttpControllerTest {
     @Test
     void applyNotFound() {
         // given
-        HttpRequest httpRequest = HttpRequest.GET("/noResource.html");
+        HttpRequest httpRequest = HttpRequestFixture.GET("/noResource.html");
 
         // when
         HttpResponse httpResponse = HttpController.apply(httpRequest);

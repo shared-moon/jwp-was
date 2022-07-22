@@ -1,8 +1,6 @@
 package http.io;
 
 import http.enums.HttpMethod;
-import http.io.HttpRequest;
-import http.io.HttpRequestReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -28,6 +26,6 @@ class HttpRequestReaderTest {
         HttpRequest httpRequest = httpRequestReader.read();
 
         // then
-        assertThat(httpRequest).isEqualTo(new HttpRequest(HttpMethod.GET, "/index.html", "HTTP", "1.1", Map.of()));
+        assertThat(httpRequest).isEqualTo(new HttpRequest(HttpMethod.GET, "/index.html", "HTTP", "1.1", Map.of(), Map.of()));
     }
 }

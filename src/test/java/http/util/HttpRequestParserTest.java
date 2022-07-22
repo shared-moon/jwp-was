@@ -2,7 +2,6 @@ package http.util;
 
 import http.enums.HttpMethod;
 import http.io.HttpRequest;
-import http.util.HttpRequestParser;
 import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -18,7 +17,7 @@ public class HttpRequestParserTest {
     @MethodSource
     void parse(String requestLine, HttpRequest expected) {
         // when
-        HttpRequest httpRequest = HttpRequestParser.parse(requestLine);
+        HttpRequest httpRequest = HttpRequestParser.parse(requestLine, "");
 
         // then
         assertThat(httpRequest).isEqualTo(expected);
@@ -26,16 +25,16 @@ public class HttpRequestParserTest {
 
     private static Stream<Arguments> parse() {
         return Stream.of(
-                Arguments.of("GET /users HTTP/1.1", new HttpRequest(HttpMethod.GET, "/users", "HTTP", "1.1", Map.of())),
-                Arguments.of("GET /users?userId=moon HTTP/1.1", new HttpRequest(HttpMethod.GET, "/users", "HTTP", "1.1", Map.of("userId", "moon"))),
-                Arguments.of("POST /users HTTP/1.1", new HttpRequest(HttpMethod.POST, "/users", "HTTP", "1.1", Map.of()))
+                Arguments.of("GET /users HTTP/1.1", new HttpRequest(HttpMethod.GET, "/users", "HTTP", "1.1", Map.of(), Map.of())),
+                Arguments.of("GET /users?userId=moon HTTP/1.1", new HttpRequest(HttpMethod.GET, "/users", "HTTP", "1.1", Map.of("userId", "moon"), Map.of())),
+                Arguments.of("POST /users HTTP/1.1", new HttpRequest(HttpMethod.POST, "/users", "HTTP", "1.1", Map.of(), Map.of()))
         );
     }
 
     @ParameterizedTest(name = "파싱 실패 - {0}")
     @MethodSource
     void parseWithInvalidRequestLine(String requestLine) {
-        assertThatIllegalArgumentException().isThrownBy(() -> HttpRequestParser.parse(requestLine));
+        assertThatIllegalArgumentException().isThrownBy(() -> HttpRequestParser.parse(requestLine, ""));
     }
 
     private static Stream<String> parseWithInvalidRequestLine() {

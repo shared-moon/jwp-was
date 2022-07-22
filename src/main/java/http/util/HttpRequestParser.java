@@ -2,6 +2,7 @@ package http.util;
 
 import http.enums.HttpMethod;
 import http.io.HttpRequest;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,7 +17,7 @@ public class HttpRequestParser {
     private static final String BEGIN_QUERY_STRING = "?";
     private static final int NOT_FOUND_IDX = -1;
 
-    public static HttpRequest parse(String requestLine) {
+    public static HttpRequest parse(String requestLine, String requestBody) {
         Matcher matcher = REQUEST_LINE_PATTERN.matcher(requestLine);
 
         if (!matcher.find()) {
@@ -33,7 +34,14 @@ public class HttpRequestParser {
         String path = extractPath(pathWithQueryString, queryStringAt);
         String queryString = extractQueryString(pathWithQueryString, queryStringAt);
 
-        return new HttpRequest(HttpMethod.valueOf(method), path, protocol, version, HttpQueryStringParser.parse(queryString));
+        return new HttpRequest(
+                HttpMethod.valueOf(method),
+                path,
+                protocol,
+                version,
+                HttpQueryStringParser.parse(queryString),
+                HttpQueryStringParser.parse(requestBody)
+        );
     }
 
     private static String extractPath(String pathWithQueryString, int queryStringAt) {
