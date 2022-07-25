@@ -18,7 +18,7 @@ class HttpResponseWriterTest {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         HttpResponseWriter httpResponseWriter = new HttpResponseWriter(bos);
 
-        HttpResponse httpResponse = new HttpResponse(HttpResponseHeader.of(HttpStatus.OK));
+        HttpResponse httpResponse = HttpResponseFactory.ok().build();
 
         // when
         httpResponseWriter.write(httpResponse);

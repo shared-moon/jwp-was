@@ -24,11 +24,11 @@
 
 ### Step2
 
-[ ] webapp 디렉토리의 index.html 파일을 읽어 클라이언트에 응답한다.
+[x] webapp 디렉토리의 index.html 파일을 읽어 클라이언트에 응답한다.
 
-[ ] /user/form.html 으로 이동하면서 회원가입할 수 있다. 회원가입한다.
+[x] /user/form.html 으로 이동하면서 회원가입할 수 있다. 회원가입한다.
 
-[ ] form 태그 method를 get에서 post로 수정한 후 회원가입 기능이 정상적으로 동작하도록 구현한다.
+[x] form 태그 method를 get에서 post로 수정한 후 회원가입 기능이 정상적으로 동작하도록 구현한다.
 
 [ ] “회원가입”을 완료하면 /index.html 페이지로 이동하고 싶다
 

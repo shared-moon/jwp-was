@@ -4,6 +4,7 @@ import http.controller.Controller;
 import http.controller.UserCreateController;
 import http.io.HttpRequest;
 import http.io.HttpResponse;
+import http.io.HttpResponseFactory;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,7 +20,7 @@ public class HttpServiceController {
         Controller controller = ENDPOINTS.get(path);
 
         if (controller == null) {
-            return HttpResponse.notFound(path + " 경로를 찾을 수 없습니다.");
+            return HttpResponseFactory.notFound(path + " 경로를 찾을 수 없습니다.").build();
         }
         return controller.execute(httpRequest);
     }
