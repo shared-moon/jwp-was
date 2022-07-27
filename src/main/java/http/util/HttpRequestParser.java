@@ -16,7 +16,7 @@ public class HttpRequestParser {
 
     private static final String BEGIN_QUERY_STRING = "?";
     private static final int NOT_FOUND_IDX = -1;
-    private static final String DEFAULT_PAGE = "index.html";
+    private static final String DEFAULT_PAGE = "/index.html";
 
     public static HttpRequest parse(String requestLine, String requestBody) {
         Matcher matcher = REQUEST_LINE_PATTERN.matcher(requestLine);
@@ -37,7 +37,7 @@ public class HttpRequestParser {
 
         return new HttpRequest(
                 HttpMethod.valueOf(method),
-                (path.isEmpty()) ? DEFAULT_PAGE : path,
+                (isMainPage(path)) ? DEFAULT_PAGE : path,
                 protocol,
                 version,
                 HttpQueryStringParser.parse(queryString),
@@ -57,5 +57,9 @@ public class HttpRequestParser {
             return null;
         }
         return pathWithQueryString.substring(queryStringAt + 1);
+    }
+
+    private static boolean isMainPage(String path) {
+        return path.equals("/");
     }
 }

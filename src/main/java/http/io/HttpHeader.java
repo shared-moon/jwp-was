@@ -1,9 +1,10 @@
 package http.io;
 
-import com.google.common.net.HttpHeaders;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
+import org.springframework.util.ObjectUtils;
 
 import static com.google.common.net.HttpHeaders.LOCATION;
 import static java.util.stream.Collectors.joining;
@@ -14,6 +15,7 @@ public class HttpHeader {
     public static final String NEXT_LINE = "\r\n";
     private static final String DELIMITER = ":";
     private final Map<String, String> headers = new HashMap<>();
+    private HttpCookies cookies;
 
     public HttpHeader() {
         headers.put(CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
@@ -21,6 +23,10 @@ public class HttpHeader {
 
     public void setLocation(String location) {
         headers.put(LOCATION, location);
+    }
+
+    public void setCookies(HttpCookies cookies) {
+        this.cookies = cookies;
     }
 
     public void put(String key, String value) {
@@ -35,8 +41,16 @@ public class HttpHeader {
         return headers.get(key);
     }
 
+    public HttpCookies getCookies() {
+        return cookies;
+    }
+
     public Set<String> keySet() {
         return headers.keySet();
+    }
+
+    public boolean notHasCookies() {
+        return ObjectUtils.isEmpty(cookies);
     }
     @Override
     public String toString() {

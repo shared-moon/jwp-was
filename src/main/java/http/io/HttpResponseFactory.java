@@ -5,6 +5,7 @@ import http.util.JsonUtils;
 import java.nio.charset.Charset;
 import org.springframework.http.HttpStatus;
 
+import static org.springframework.http.HttpStatus.FOUND;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
@@ -17,8 +18,17 @@ public class HttpResponseFactory {
     public static HttpResponseBuilder ok() {
         return builder(OK);
     }
+
     public static HttpResponseBuilder ok(Object body) {
         return builder(OK).body(body);
+    }
+
+    public static HttpResponseBuilder redirect() {
+        return builder(FOUND);
+    }
+
+    public static HttpResponseBuilder redirect(Object body) {
+        return builder(FOUND).body(body);
     }
     public static HttpResponseBuilder notFound() {
         return builder(NOT_FOUND);
@@ -29,6 +39,10 @@ public class HttpResponseFactory {
 
     public static HttpResponseBuilder error() {
         return builder(INTERNAL_SERVER_ERROR);
+    }
+
+    public static HttpResponseBuilder error(Object body) {
+        return builder(INTERNAL_SERVER_ERROR).body(body);
     }
 
     public static HttpResponseBuilder builder(HttpStatus status) {

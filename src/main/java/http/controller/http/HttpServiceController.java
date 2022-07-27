@@ -1,6 +1,7 @@
 package http.controller.http;
 
 import http.controller.Controller;
+import http.controller.LoginController;
 import http.controller.UserCreateController;
 import http.io.HttpRequest;
 import http.io.HttpResponse;
@@ -13,6 +14,7 @@ public class HttpServiceController {
 
     static {
         ENDPOINTS.put("/user/create", new UserCreateController());
+        ENDPOINTS.put("/user/login", new LoginController());
     }
 
     public static HttpResponse execute(HttpRequest httpRequest) {

@@ -7,8 +7,11 @@ import java.util.Objects;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 
+import static org.springframework.http.HttpHeaders.SET_COOKIE;
+
 public class HttpResponse {
     private static final String FIRST_LINE_FORMAT = "%s/%s %s %s";
+    private static final String HEADER_LINE_FORMAT = "%s: %s";
     private static final String NEXT_LINE = "\r\n";
 
     private final String protocol = "HTTP";
@@ -49,6 +52,16 @@ public class HttpResponse {
         writeResponseFirstLine(dos);
         writeResponseHeaders(dos);
         writeContentLengthLine(dos);
+        writeCookies(dos);
+    }
+
+    private void writeCookies(DataOutputStream dos) throws IOException {
+        if(header.notHasCookies()) {
+            return;
+        }
+        HttpCookies cookies = header.getCookies();
+        dos.writeBytes(String.format(HEADER_LINE_FORMAT, SET_COOKIE, cookies.cookieLine()));
+        dos.writeBytes(NEXT_LINE);
     }
 
     private void writeResponseFirstLine(DataOutputStream dos) throws IOException {
@@ -71,8 +84,7 @@ public class HttpResponse {
     }
 
     private void writeResponseHeader(DataOutputStream dos, String key, Object value) throws IOException {
-        String headerLine = key + ": " + value;
-        dos.writeBytes(headerLine);
+        dos.writeBytes(String.format(HEADER_LINE_FORMAT, key, value));
         dos.writeBytes(NEXT_LINE);
     }
 

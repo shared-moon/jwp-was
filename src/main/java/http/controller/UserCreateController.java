@@ -21,9 +21,8 @@ public class UserCreateController implements Controller{
         HttpHeader httpHeader = new HttpHeader();
         httpHeader.setLocation("/index.html");
 
-        return HttpResponseFactory.builder(FOUND)
+        return HttpResponseFactory.redirect(user)
                 .header(httpHeader)
-                .body(user)
                 .build();
 
     }
