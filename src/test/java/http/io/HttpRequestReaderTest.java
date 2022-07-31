@@ -26,6 +26,6 @@ class HttpRequestReaderTest {
         HttpRequest httpRequest = httpRequestReader.read();
 
         // then
-        assertThat(httpRequest).isEqualTo(new HttpRequest(HttpMethod.GET, "/index.html", "HTTP", "1.1", Map.of(), Map.of()));
+        assertThat(httpRequest).isEqualTo(new HttpRequest(HttpMethod.GET, "/index.html", "HTTP", "1.1", new HttpHeader(), Map.of(), Map.of()));
     }
 }

@@ -1,29 +1,42 @@
 package http.io;
 
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
+import static java.util.function.Function.identity;
+import static java.util.stream.Collectors.toMap;
 
 public class HttpCookies {
-    private static final String COOKIE_FORMAT = "%s=%s";
-    private static final String DELIMITER = "; ";
-    private final Map<String, String> cookies = new HashMap<>();
+    private Map<String, HttpCookie> cookiesByKey = new ConcurrentHashMap<>();
 
-    public HttpCookies() {
-        cookies.put("Path", "/");
+    public HttpCookies() {}
+
+    public HttpCookies(List<HttpCookie> cookies) {
+        this.cookiesByKey = cookies.stream().collect(toMap(HttpCookie::getKey, identity(), (e1, e2) -> e1));
     }
 
-    public void put(String key, Object value) {
-        cookies.put(key, String.valueOf(value));
+    public void add(HttpCookie cookie) {
+        cookiesByKey.put(cookie.getKey(), cookie);
     }
 
-    public String cookieLine() {
-        return cookies.entrySet().stream()
-                .map(entry -> String.format(COOKIE_FORMAT, entry.getKey(), entry.getValue()))
-                .collect(Collectors.joining(DELIMITER));
+    public Set<String> keySet() {
+        return cookiesByKey.keySet();
+    }
+
+    public HttpCookie getCookie(String key) {
+        return cookiesByKey.get(key);
+    }
+
+    public String getValue(String key) {
+        if (!cookiesByKey.containsKey(key)) {
+            return null;
+        }
+        return cookiesByKey.get(key).getValue();
     }
 
     public boolean isEmpty() {
-        return cookies.isEmpty();
+        return cookiesByKey.isEmpty();
     }
 }

@@ -1,8 +1,8 @@
 package http.util;
 
 import http.enums.HttpMethod;
+import http.io.HttpHeader;
 import http.io.HttpRequest;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,7 +18,9 @@ public class HttpRequestParser {
     private static final int NOT_FOUND_IDX = -1;
     private static final String DEFAULT_PAGE = "/index.html";
 
-    public static HttpRequest parse(String requestLine, String requestBody) {
+    public static HttpRequest parse(String requestLine,
+                                    HttpHeader requestHeader,
+                                    String requestBody) {
         Matcher matcher = REQUEST_LINE_PATTERN.matcher(requestLine);
 
         if (!matcher.find()) {
@@ -40,6 +42,7 @@ public class HttpRequestParser {
                 (isMainPage(path)) ? DEFAULT_PAGE : path,
                 protocol,
                 version,
+                requestHeader,
                 HttpQueryStringParser.parse(queryString),
                 HttpQueryStringParser.parse(requestBody)
         );

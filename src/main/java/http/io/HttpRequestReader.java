@@ -34,7 +34,7 @@ public class HttpRequestReader {
         String bodyLine = readBody(br, requestHeader);
         printFullRequest(requestLine, requestHeader, bodyLine);
 
-        return HttpRequestParser.parse(requestLine, bodyLine);
+        return HttpRequestParser.parse(requestLine, requestHeader, bodyLine);
     }
 
     private HttpHeader readHeader(BufferedReader br) throws IOException {

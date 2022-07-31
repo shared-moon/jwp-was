@@ -1,40 +1,41 @@
 package http.io;
 
+import http.enums.HttpExt;
 import http.enums.HttpMethod;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 
 public class HttpRequest {
-    private static final Set<String> RESOURCE_EXT = Set.of("html");
-
     private final HttpMethod method;
     private final String path;
     private final String protocol;
     private final String version;
 
+    private HttpHeader header;
     private final Map<String,String> params;
     private final Map<String,String> body;
+
+    private HttpExt ext;
 
     public HttpRequest(HttpMethod method,
                        String path,
                        String protocol,
                        String version,
+                       HttpHeader requestHeader,
                        Map<String, String> params,
                        Map<String, String> body) {
         this.method = method;
         this.path = path;
         this.protocol = protocol;
         this.version = version;
+        this.header = requestHeader;
         this.params = params;
         this.body = body;
+        this.ext = HttpExt.select(path);
     }
 
     public boolean isResourcePath() {
-        int extIdx = path.lastIndexOf(".");
-        String ext = path.substring(extIdx + 1);
-
-        return RESOURCE_EXT.contains(ext);
+        return ext.isResourceExt();
     }
 
     public String getPath() {
@@ -47,6 +48,14 @@ public class HttpRequest {
 
     public Map<String, String> getBody() {
         return body;
+    }
+
+    public HttpHeader getHeader() {
+        return header;
+    }
+
+    public HttpExt getExt() {
+        return ext;
     }
 
     @Override

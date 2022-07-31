@@ -1,6 +1,7 @@
 package http.controller;
 
 import db.DataBase;
+import http.io.HttpCookie;
 import http.io.HttpCookies;
 import http.io.HttpHeader;
 import http.io.HttpRequest;
@@ -9,8 +10,6 @@ import http.io.HttpResponseFactory;
 import http.util.JsonUtils;
 import model.LoginUser;
 import model.User;
-
-import static org.springframework.http.HttpStatus.FOUND;
 
 public class LoginController implements Controller {
     private static final String URI_SUCCESS = "/index.html";
@@ -38,7 +37,7 @@ public class LoginController implements Controller {
         header.setLocation(URI_FAILED);
 
         HttpCookies cookies = new HttpCookies();
-        cookies.put(COOKIE_KEY_LOGINED, "false");
+        cookies.add(createLoginedCookie(false));
         header.setCookies(cookies);
 
         return HttpResponseFactory.redirect("아이디 혹은 비밀번호가 잘못되었습니다.")
@@ -51,11 +50,18 @@ public class LoginController implements Controller {
         header.setLocation(URI_SUCCESS);
 
         HttpCookies cookies = new HttpCookies();
-        cookies.put(COOKIE_KEY_LOGINED, "true");
+        cookies.add(createLoginedCookie(true));
         header.setCookies(cookies);
 
         return HttpResponseFactory.redirect()
                 .header(header)
                 .build();
+    }
+
+    private HttpCookie createLoginedCookie(boolean logined) {
+        HttpCookie cookie = HttpCookie.of(COOKIE_KEY_LOGINED, logined);
+        cookie.addOption("Path=/");
+
+        return cookie;
     }
 }
